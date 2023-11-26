@@ -6,11 +6,11 @@ services:
           ports:
           - 5432:5432
           volumes: 
-          - postgress_data/var/lib/postgresql/data
+          - postgres_data:/var/lib/postgresql/data
           environment:
             POSTGRES_USER: postgres
             POSTGRES_DB: threads
             POSTGRES_PASSWORD: threads
 
 volumes:
-         postgress_data:
+         postgres_data:

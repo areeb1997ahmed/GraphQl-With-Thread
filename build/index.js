@@ -16,9 +16,10 @@ const express_1 = __importDefault(require("express"));
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
 const cors_1 = __importDefault(require("cors"));
+const db_1 = require("./libs/db");
 const app = (0, express_1.default)();
 const port = 8000;
-const server = () => __awaiter(void 0, void 0, void 0, function* () {
+const ExpressServer = () => __awaiter(void 0, void 0, void 0, function* () {
     app.get('/', (req, res) => {
         res.json({ message: 'Hello World!' });
     });
@@ -27,10 +28,32 @@ const server = () => __awaiter(void 0, void 0, void 0, function* () {
   type Query{
     hello:String
   }
+  type Mutation{
+    createUser(
+      firstName:String!,
+      lastname:String!,
+      password:String!,
+      email:String!
+      ):Boolean
+  }
   `,
         resolvers: {
             Query: {
                 hello: () => `Hello this is grapg Ql`,
+            },
+            Mutation: {
+                createUser: (_, { firstName, lastname, password, email }) => __awaiter(void 0, void 0, void 0, function* () {
+                    yield db_1.prismaClient.user.create({
+                        data: {
+                            firstName,
+                            lastname,
+                            password,
+                            email,
+                            salt: "random_salt"
+                        }
+                    });
+                    return true;
+                })
             }
         },
     });
@@ -40,4 +63,4 @@ const server = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`Express is listening at http://localhost:${port}`);
     });
 });
-server();
+ExpressServer();
