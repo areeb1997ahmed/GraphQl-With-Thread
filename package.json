@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "graphql": "^16.8.1",
+    "jsonwebtoken": "^9.0.2",
     "tsc-init": "^2.1.0",
     "tsc-watch": "^6.0.4"
   },
